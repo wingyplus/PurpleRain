@@ -1,3 +1,4 @@
+#include <iostream>
 #include <SDL2/SDL.h>
 
 class Background {
@@ -26,6 +27,7 @@ int main(int argc, char **argv) {
       SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
   Background background;
+  int w;
 
   SDL_Event evt;
   while (1) {
@@ -35,6 +37,12 @@ int main(int argc, char **argv) {
     }
 
     background.Render(renderer);
+
+    SDL_GetWindowSize(window, &w, nullptr);
+    int x = w / 2;
+    int y = 0;
+    SDL_SetRenderDrawColor(renderer, 138, 43, 226, SDL_ALPHA_OPAQUE);
+    SDL_RenderDrawLine(renderer, x, y, x, y + 10);
     SDL_RenderPresent(renderer);
   }
 
