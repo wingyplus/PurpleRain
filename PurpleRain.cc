@@ -18,12 +18,23 @@ public:
 
 class Drop {
 private:
-  float x, y;
+  float x, y, yspeed;
   int r, g, b;
 
-public:
-  Drop(float x, float y) : x(x), y(y), r(138), g(43), b(226) {}
+  // Fall the drop by yspeed
+  void Fall() {
+    y += yspeed;
+  }
 
+public:
+  Drop(float x, float y) : x(x), y(y), yspeed(1), r(138), g(43), b(226) {}
+
+  // Update position of drop
+  void Update() {
+    Fall();
+  }
+
+  // Render the drop
   void Render(SDL_Renderer *renderer) {
     SDL_SetRenderDrawColor(renderer, r, g, b, SDL_ALPHA_OPAQUE);
     SDL_RenderDrawLine(renderer, x, y, x, y + 10);
@@ -52,6 +63,8 @@ int main(int argc, char **argv) {
     if (evt.type == SDL_QUIT) {
       break;
     }
+
+    d.Update();
 
     background.Render(renderer);
     d.Render(renderer);
