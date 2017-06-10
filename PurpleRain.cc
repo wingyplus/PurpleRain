@@ -1,5 +1,19 @@
 #include <SDL2/SDL.h>
 
+class Background {
+private:
+  int r, g, b;
+
+public:
+  Background() : r(230), g(230), b(250) {}
+
+  // Render update background to renderer
+  void Render(SDL_Renderer *renderer) {
+    SDL_SetRenderDrawColor(renderer, r, g, b, 255);
+    SDL_RenderClear(renderer);
+  }
+};
+
 int main(int argc, char **argv) {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
@@ -11,14 +25,16 @@ int main(int argc, char **argv) {
   SDL_Renderer *renderer =
       SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
+  Background background;
+
   SDL_Event evt;
   while (1) {
     SDL_PollEvent(&evt);
     if (evt.type == SDL_QUIT) {
       break;
     }
-    SDL_SetRenderDrawColor(renderer, 230, 230, 250, 255);
-    SDL_RenderClear(renderer);
+
+    background.Render(renderer);
     SDL_RenderPresent(renderer);
   }
 
