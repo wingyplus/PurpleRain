@@ -1,4 +1,5 @@
 #include <iostream>
+
 #include <SDL2/SDL.h>
 
 class Background {
@@ -15,6 +16,20 @@ public:
   }
 };
 
+class Drop {
+private:
+  float x, y;
+  int r, g, b;
+
+public:
+  Drop(float x, float y) : x(x), y(y), r(138), g(43), b(226) {}
+
+  void Render(SDL_Renderer *renderer) {
+    SDL_SetRenderDrawColor(renderer, r, g, b, SDL_ALPHA_OPAQUE);
+    SDL_RenderDrawLine(renderer, x, y, x, y + 10);
+  }
+};
+
 int main(int argc, char **argv) {
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
@@ -28,6 +43,8 @@ int main(int argc, char **argv) {
 
   Background background;
   int w;
+  SDL_GetWindowSize(window, &w, nullptr);
+  Drop d(w / 2, 0);
 
   SDL_Event evt;
   while (1) {
@@ -37,12 +54,7 @@ int main(int argc, char **argv) {
     }
 
     background.Render(renderer);
-
-    SDL_GetWindowSize(window, &w, nullptr);
-    int x = w / 2;
-    int y = 0;
-    SDL_SetRenderDrawColor(renderer, 138, 43, 226, SDL_ALPHA_OPAQUE);
-    SDL_RenderDrawLine(renderer, x, y, x, y + 10);
+    d.Render(renderer);
     SDL_RenderPresent(renderer);
   }
 
