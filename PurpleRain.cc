@@ -1,7 +1,9 @@
-#include <iostream>
 #include <array>
+#include <iostream>
 
 #include <SDL2/SDL.h>
+
+#include "Window.h"
 
 // Random number from 0 - high number
 #define RAND(high) rand() % high
@@ -29,18 +31,14 @@ private:
   int r, g, b;
 
   // Fall the drop by yspeed
-  void Fall() {
-    y += yspeed;
-  }
+  void Fall() { y += yspeed; }
 
 public:
-  Drop(): Drop(0, 0) {}
+  Drop() : Drop(0, 0) {}
   Drop(float x, float y) : x(x), y(y), yspeed(1), r(138), g(43), b(226) {}
 
   // Update position of drop
-  void Update() {
-    Fall();
-  }
+  void Update() { Fall(); }
 
   // Render the drop
   void Render(SDL_Renderer *renderer) {
@@ -55,17 +53,14 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-  SDL_Window *window =
-      SDL_CreateWindow("Purple Rain", 0, 0, 640, 360, SDL_WINDOW_OPENGL);
-  SDL_Renderer *renderer =
-      SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+  Window *window = new Window("Purple Rain", 640, 360);
+  SDL_Renderer *renderer = window->Renderer();
 
   Background background;
-  int w;
-  SDL_GetWindowSize(window, &w, nullptr);
+  // TODO: find the way to create 100 drops in efficient way.
   std::array<Drop, 100> drops;
   for (int i = 0; i < drops.size(); i++) {
-    drops[i] = Drop(RAND(w), RAND_LH(-200, -100));
+    drops[i] = Drop(RAND(window->Width()), RAND_LH(-200, -100));
   }
 
   SDL_Event evt;
@@ -83,8 +78,7 @@ int main(int argc, char **argv) {
     SDL_RenderPresent(renderer);
   }
 
-  SDL_DestroyRenderer(renderer);
-  SDL_DestroyWindow(window);
+  delete window;
   SDL_Quit();
   return 0;
 }
