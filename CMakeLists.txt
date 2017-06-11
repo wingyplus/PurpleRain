@@ -4,5 +4,7 @@ project(PurpleRain)
 include_directories(/usr/local/include)
 link_directories(/usr/local/lib)
 
+set(CMAKE_CXX_FLAGS "-std=c++11")
+
 add_executable(purple-rain PurpleRain.cc)
 target_link_libraries(purple-rain SDL2)

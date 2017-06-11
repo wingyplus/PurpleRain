@@ -1,6 +1,13 @@
 #include <iostream>
+#include <array>
 
 #include <SDL2/SDL.h>
+
+// Random number from 0 - high number
+#define RAND(high) rand() % high
+
+// Random number from low - high number
+#define RAND_LH(low, high) rand() % low + high
 
 class Background {
 private:
@@ -27,6 +34,7 @@ private:
   }
 
 public:
+  Drop(): Drop(0, 0) {}
   Drop(float x, float y) : x(x), y(y), yspeed(1), r(138), g(43), b(226) {}
 
   // Update position of drop
@@ -55,7 +63,10 @@ int main(int argc, char **argv) {
   Background background;
   int w;
   SDL_GetWindowSize(window, &w, nullptr);
-  Drop d(w / 2, 0);
+  std::array<Drop, 100> drops;
+  for (int i = 0; i < drops.size(); i++) {
+    drops[i] = Drop(RAND(w), RAND_LH(-200, -100));
+  }
 
   SDL_Event evt;
   while (1) {
@@ -64,10 +75,11 @@ int main(int argc, char **argv) {
       break;
     }
 
-    d.Update();
-
     background.Render(renderer);
-    d.Render(renderer);
+    for (int i = 0; i < drops.size(); i++) {
+      drops[i].Update();
+      drops[i].Render(renderer);
+    }
     SDL_RenderPresent(renderer);
   }
 
