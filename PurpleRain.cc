@@ -4,12 +4,7 @@
 #include <SDL2/SDL.h>
 
 #include "Window.h"
-
-// Random number from 0 - high number
-#define RAND(high) rand() % high
-
-// Random number from low - high number
-#define RAND_LH(low, high) rand() % low + high
+#include "rnd.h"
 
 // Height is global variable to use for other class to access window height.
 int Height;
