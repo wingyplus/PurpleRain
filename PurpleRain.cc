@@ -26,8 +26,7 @@ private:
   }
 
 public:
-  Drop() : Drop(0, 0) {}
-  Drop(float x, float y) : x(x), y(y), yspeed(1), r(138), g(43), b(226) {}
+  Drop() : yspeed(1), r(138), g(43), b(226) {}
 
   void SetPosition(float x, float y) {
     this->x = x;
@@ -55,10 +54,9 @@ int main(int argc, char **argv) {
   SDL_Renderer *renderer = window->Renderer();
 
   Background background;
-  // TODO: find the way to create 100 drops in efficient way.
   std::array<Drop, 100> drops;
   for (int i = 0; i < drops.size(); i++) {
-    drops[i] = Drop(RAND(window->Width()), RAND_LH(-200, -100));
+    drops[i].SetPosition(RAND(window->Width()), RAND_LH(-200, -100));
   }
 
   SDL_Event evt;
