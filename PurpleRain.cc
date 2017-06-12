@@ -4,24 +4,11 @@
 #include <SDL2/SDL.h>
 
 #include "Window.h"
+#include "Background.h"
 #include "rnd.h"
 
 // Height is global variable to use for other class to access window height.
 int Height;
-
-class Background {
-private:
-  int r, g, b;
-
-public:
-  Background() : r(230), g(230), b(250) {}
-
-  // Render update background to renderer
-  void Render(SDL_Renderer *renderer) {
-    SDL_SetRenderDrawColor(renderer, r, g, b, 255);
-    SDL_RenderClear(renderer);
-  }
-};
 
 class Drop {
 private:
