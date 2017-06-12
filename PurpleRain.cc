@@ -11,6 +11,9 @@
 // Random number from low - high number
 #define RAND_LH(low, high) rand() % low + high
 
+// Height is global variable to use for other class to access window height.
+int Height;
+
 class Background {
 private:
   int r, g, b;
@@ -31,7 +34,14 @@ private:
   int r, g, b;
 
   // Fall the drop by yspeed
-  void Fall() { y += yspeed; }
+  void Fall() {
+    y += yspeed;
+
+    // re-position y when drop is outside window
+    if (y > Height) {
+      y = RAND_LH(-200, -100);
+    }
+  }
 
 public:
   Drop() : Drop(0, 0) {}
@@ -54,6 +64,7 @@ int main(int argc, char **argv) {
   }
 
   Window *window = new Window("Purple Rain", 640, 360);
+  Height = window->Height();
   SDL_Renderer *renderer = window->Renderer();
 
   Background background;
