@@ -1,10 +1,10 @@
 #include <array>
 #include <iostream>
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
-#include "Window.h"
 #include "Background.h"
+#include "Window.h"
 #include "rnd.h"
 
 // Height is global variable to use for other class to access window height.
@@ -28,6 +28,11 @@ private:
 public:
   Drop() : Drop(0, 0) {}
   Drop(float x, float y) : x(x), y(y), yspeed(1), r(138), g(43), b(226) {}
+
+  void SetPosition(float x, float y) {
+    this->x = x;
+    this->y = y;
+  }
 
   // Update position of drop
   void Update() { Fall(); }
